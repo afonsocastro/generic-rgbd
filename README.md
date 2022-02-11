@@ -105,6 +105,8 @@ sudo make install
 
 [under construction]
 
+[//]: # (todo: change all this shit to a fork from ladavic)
+
 ## Sending TF (via socket communication) of wood-block RGB-D tracking
 
 [under construction]
