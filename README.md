@@ -103,7 +103,12 @@ sudo make install
 
 ## Simple RGB-D object tracking
 
-[under construction]
+````
+cd $VISP_WS/visp-build
+make -j4
+cd $VISP_WS/visp-build/tutorial/tracking/model-based/generic-rgbd
+./afonso_rgbd
+````
 
 [//]: # (todo: change all this shit to a fork from ladavic)
 

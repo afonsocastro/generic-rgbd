@@ -39,7 +39,7 @@ int main(int argc, char *argv[])
   bool use_klt = true;
   bool use_depth = true;
   bool learn = false;
-  bool auto_init = false;
+  bool auto_init = true;
   double proj_error_threshold = 25;
   std::string learning_data = "learning/data-learned.bin";
   bool display_projection_error = false;
@@ -184,31 +184,31 @@ int main(int argc, char *argv[])
   if (use_depth)
     d2.init(I_depth, _posx + I_gray.getWidth()+10, _posy, "Depth stream");
 
-  while (true) {
-    realsense.acquire((unsigned char *) I_color.bitmap, (unsigned char *) I_depth_raw.bitmap, NULL, NULL);
-
-    if (use_edges || use_klt) {
-      vpImageConvert::convert(I_color, I_gray);
-      vpDisplay::display(I_gray);
-      vpDisplay::displayText(I_gray, 20, 20, "Click when ready.", vpColor::red);
-      vpDisplay::flush(I_gray);
-
-      if (vpDisplay::getClick(I_gray, false)) {
-        break;
-      }
-    }
-    if (use_depth) {
-      vpImageConvert::createDepthHistogram(I_depth_raw, I_depth);
-
-      vpDisplay::display(I_depth);
-      vpDisplay::displayText(I_depth, 20, 20, "Click when ready.", vpColor::red);
-      vpDisplay::flush(I_depth);
-
-      if (vpDisplay::getClick(I_depth, false)) {
-        break;
-      }
-    }
-  }
+//  while (true) {
+//    realsense.acquire((unsigned char *) I_color.bitmap, (unsigned char *) I_depth_raw.bitmap, NULL, NULL);
+//
+//    if (use_edges || use_klt) {
+//      vpImageConvert::convert(I_color, I_gray);
+//      vpDisplay::display(I_gray);
+//      vpDisplay::displayText(I_gray, 20, 20, "Click when ready.", vpColor::red);
+//      vpDisplay::flush(I_gray);
+//
+//      if (vpDisplay::getClick(I_gray, false)) {
+//        break;
+//      }
+//    }
+//    if (use_depth) {
+//      vpImageConvert::createDepthHistogram(I_depth_raw, I_depth);
+//
+//      vpDisplay::display(I_depth);
+//      vpDisplay::displayText(I_depth, 20, 20, "Click when ready.", vpColor::red);
+//      vpDisplay::flush(I_depth);
+//
+//      if (vpDisplay::getClick(I_depth, false)) {
+//        break;
+//      }
+//    }
+//  }
 
   std::vector<int> trackerTypes;
   if (use_edges && use_klt)
@@ -320,14 +320,14 @@ int main(int argc, char *argv[])
   int addrlen = sizeof(address);
   char buffer[1024] = {0};
   // char *hello = "Hello from server";
-  
+
   // Creating socket file descriptor
   if ((server_fd = socket(AF_INET, SOCK_STREAM, 0)) == 0)
   {
       perror("socket failed");
       exit(EXIT_FAILURE);
   }
-    
+
   // Forcefully attaching socket to the port 8080
   if (setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT,
                                                 &opt, sizeof(opt)))
@@ -341,7 +341,7 @@ int main(int argc, char *argv[])
   address.sin_port = htons( PORT );
 
   // Forcefully attaching socket to the port 8080
-  if (bind(server_fd, (struct sockaddr *)&address, 
+  if (bind(server_fd, (struct sockaddr *)&address,
                               sizeof(address))<0)
   {
       perror("bind failed");
@@ -352,13 +352,13 @@ int main(int argc, char *argv[])
       perror("listen");
       exit(EXIT_FAILURE);
   }
-  if ((new_socket = accept(server_fd, (struct sockaddr *)&address, 
+  if ((new_socket = accept(server_fd, (struct sockaddr *)&address,
                     (socklen_t*)&addrlen))<0)
   {
       perror("accept");
       exit(EXIT_FAILURE);
   }
-// SOCKET --------------------------------------------------------------------------------------------------------------------------------------------------------   
+// SOCKET --------------------------------------------------------------------------------------------------------------------------------------------------------
 
   try {
     //To be able to display keypoints matching with test-detection-rs2
@@ -502,7 +502,7 @@ int main(int argc, char *argv[])
         cMo.extract(tv);
         cMo.extract(q);
 
-        std::string s = "T: " + std::to_string(tv[0]) + " " + std::to_string(tv[1]) + " " + std::to_string(tv[2]); 
+        std::string s = "T: " + std::to_string(tv[0]) + " " + std::to_string(tv[1]) + " " + std::to_string(tv[2]);
         s.append("\nQ: " + std::to_string(q[0]) + " " + std::to_string(q[1]) + " " + std::to_string(q[2]) + " " + std::to_string(q[3]));
 
         std::cout << "s: " << s << std::endl;
@@ -511,7 +511,7 @@ int main(int argc, char *argv[])
         valread = read( new_socket , buffer, 1024);
         printf("%s\n",buffer );
         send(new_socket , c , strlen(c) , 0 );
-      
+
         // #SOCKET--------------------------------------------------------------------------------------------------------------------------------------------------------------
       }
 
